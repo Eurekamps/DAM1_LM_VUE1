@@ -3,12 +3,12 @@ export default {
 
     data() {
       return {
-        message: 'Hello, Vue!'
+       sMessage: 'Hello, Vue!'
       };
     },
     methods: {
       changeMessage() {
-        this.message = 'You clicked the button!';
+        this.sMessage = 'You clicked the button!';
       }
     }
 
@@ -17,12 +17,12 @@ export default {
 
 
 <template>
-    <h1> HOLA ESTA ES LA PAGINA PRINCIPAL</h1>
-    <p>Que tal es una app bla bla </p>
+    <h1> HOLA ESTA ES LA PAGINA PRINCIPAL {{ sMessage }}</h1>
+    <p>Que tal es una app bla bla {{ sMessage }}</p>
 
-    <h1>{{ message }}</h1>
+    <h1>{{ sMessage }}</h1>
     <button @click="changeMessage">Click Me</button>
-    
+
 </template>
 
 
