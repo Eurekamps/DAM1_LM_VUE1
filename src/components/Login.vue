@@ -5,7 +5,7 @@ const email=ref('');
 const password=ref('');
 
 function clickLogear(){
-    window.alert("USUARIO: "+email + "PASSWORD: "+password);
+    window.alert("USUARIO: "+email.value + " PASSWORD: "+password.value);
 }
 
 </script>
