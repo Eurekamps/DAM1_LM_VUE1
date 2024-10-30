@@ -14,11 +14,9 @@ import { ref } from 'vue';
 
 <template>
 
-  <h1> {{ sTitle }}</h1>
+  <h1>TITULO: {{ sTitle }}</h1>
   <br/> <br/>
   <Login/>
-
-  <button @click="changeMessage">Click Me</button>
 
   
 </template>
