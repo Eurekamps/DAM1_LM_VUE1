@@ -1,28 +1,26 @@
-<script>
-export default {
+<script setup>
+import Login from './Login.vue'
+import { ref } from 'vue';
 
-    data() {
-      return {
-       sMessage: 'Hello, Vue!'
-      };
-    },
-    methods: {
-      changeMessage() {
-        this.sMessage = 'You clicked the button!';
-      }
-    }
+  const sTitle = ref('Mi Primera App');
 
-};
+  // Methods
+  function changeMessage() {
+    sTitle.value = 'You clicked the button!';
+  }
+
 </script>
 
 
 <template>
-    <h1> HOLA ESTA ES LA PAGINA PRINCIPAL {{ sMessage }}</h1>
-    <p>Que tal es una app bla bla {{ sMessage }}</p>
 
-    <h1>{{ sMessage }}</h1>
-    <button @click="changeMessage">Click Me</button>
+  <h1> {{ sTitle }}</h1>
+  <br/> <br/>
+  <Login/>
 
+  <button @click="changeMessage">Click Me</button>
+
+  
 </template>
 
 
