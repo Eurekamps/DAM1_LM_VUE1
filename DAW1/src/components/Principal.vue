@@ -4,6 +4,10 @@
     const sUsuario=ref('...')
     const sPassword=ref('')
 
+    function presioneLogin(){
+        window.alert("HAN PRESIONADO BOTON LOGIN")
+    }
+
 
 </script>
 
@@ -21,7 +25,7 @@
         <input v-model="sPassword"></input>
     </div>
 
-    <button>LOGEARSE</button>
+    <button @click="presioneLogin">LOGEARSE</button>
     <button>REGISTRARSE</button>
 
 
