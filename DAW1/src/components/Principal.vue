@@ -1,4 +1,10 @@
 <script setup>
+    import { ref } from 'vue'
+
+    const sUsuario=ref('...')
+    const sPassword=ref('')
+
+
 </script>
 
 <template>
@@ -7,12 +13,12 @@
 
     <div>
         <label>USUARIO:</label>
-        <input></input>
+        <input v-model="sUsuario"></input>
     </div>
 
     <div>
         <label>PASSWORD:</label>
-        <input></input>
+        <input v-model="sPassword"></input>
     </div>
 
     <button>LOGEARSE</button>
