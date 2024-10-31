@@ -15,6 +15,9 @@
         <input></input>
     </div>
 
+    <button>LOGEARSE</button>
+    <button>REGISTRARSE</button>
+
 
 </template>
 
