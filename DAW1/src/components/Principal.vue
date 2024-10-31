@@ -5,7 +5,11 @@
     const sPassword=ref('')
 
     function presioneLogin(){
-        window.alert("HAN PRESIONADO BOTON LOGIN")
+        window.alert("LOGIN CON USUARIO: "+sUsuario.value+" PASSWORD: "+sPassword.value)
+    }
+
+    function presioneRegistrar(){
+        window.alert("HAN PRESIONADO BOTON REGISTRAR")
     }
 
 
@@ -17,16 +21,16 @@
 
     <div>
         <label>USUARIO:</label>
-        <input v-model="sUsuario"></input>
+        <input v-model="sUsuario" type="text"></input>
     </div>
 
     <div>
         <label>PASSWORD:</label>
-        <input v-model="sPassword"></input>
+        <input v-model="sPassword" type="password"></input>
     </div>
 
     <button @click="presioneLogin">LOGEARSE</button>
-    <button>REGISTRARSE</button>
+    <button @click="presioneRegistrar">REGISTRARSE</button>
 
 
 </template>
