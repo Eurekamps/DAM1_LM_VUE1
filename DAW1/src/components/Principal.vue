@@ -21,6 +21,12 @@
         blRegistroVisible.value=true;
     }
 
+    function presioneCancelar(){
+        //window.alert("HAN PRESIONADO BOTON REGISTRAR")
+        blLoginVisible.value=true;
+        blRegistroVisible.value=false;
+    }
+
 
 </script>
 
@@ -62,7 +68,7 @@
         </div>
 
         <button @click="">ACEPTAR</button>
-        <button @click="">CANCELAR</button>
+        <button @click="presioneCancelar">CANCELAR</button>
     </div>
     
 
