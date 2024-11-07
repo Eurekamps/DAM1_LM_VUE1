@@ -1,31 +1,9 @@
 <script setup>
     import { ref } from 'vue'
 
-    const sUsuario=ref('')
-    const sPassword=ref('')
-
-    const sUsuarioRe=ref('')
-    const sPasswordRe=ref('')
-    const sRepetirPasswordRe=ref('')
 
     const blLoginVisible=ref(true);
     const blRegistroVisible=ref(false);
-
-    function presioneLogin(){
-        window.alert("LOGIN CON USUARIO: "+sUsuario.value+" PASSWORD: "+sPassword.value)
-    }
-
-    function presioneRegistrar(){
-        //window.alert("HAN PRESIONADO BOTON REGISTRAR")
-        blLoginVisible.value=false;
-        blRegistroVisible.value=true;
-    }
-
-    function presioneCancelar(){
-        //window.alert("HAN PRESIONADO BOTON REGISTRAR")
-        blLoginVisible.value=true;
-        blRegistroVisible.value=false;
-    }
 
 
 </script>

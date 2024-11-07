@@ -7,6 +7,7 @@
     const password=ref('');
 
     function clickLogear(){
+        //alert("HE LLEGADO AQUI");
         if(email.value=='yony' && password.value=='123456'){
             emit("loginConExito");
         }
