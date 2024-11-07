@@ -20,4 +20,7 @@
 </template>
 
 <style scoped>
+  .contenedores{
+      background-color:rgb(57, 248, 143);
+  }
 </style>
