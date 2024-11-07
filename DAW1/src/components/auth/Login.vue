@@ -1,6 +1,8 @@
 <script setup>
     import { ref } from 'vue';
 
+    const emit = defineEmits(['logeado','solicitaRegistro']);
+
     const sUsuario=ref('');
     const sPassword=ref('');
 
@@ -9,7 +11,7 @@
     }
 
     function presioneRegistrar(){
-
+        emit('solicitaRegistro');
     }
 
 </script>
