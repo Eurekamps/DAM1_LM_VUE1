@@ -7,7 +7,14 @@
     const sPassword=ref('');
 
     function presioneLogin(){
-        window.alert("LOGIN CON USUARIO: "+sUsuario.value+" PASSWORD: "+sPassword.value)
+        //window.alert("LOGIN CON USUARIO: "+sUsuario.value+" PASSWORD: "+sPassword.value);
+        if(sUsuario.value.trim()=='yony' && sPassword.value.trim()=='1234'){
+            emit('logeado');
+        }
+        else{
+            window.alert("Usuario equivocado intenta otra vez");
+        }
+        
     }
 
     function presioneRegistrar(){

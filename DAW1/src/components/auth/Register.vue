@@ -5,12 +5,14 @@
     const sPasswordRe=ref('');
     const sRepetirPasswordRe=ref('');
 
+    const emit=defineEmits(["cambiarALogin"]);
+
     function presioneAceptar(){
 
     }
 
     function presioneCancelar(){
-
+        emit("cambiarALogin");
     }
 
 </script>

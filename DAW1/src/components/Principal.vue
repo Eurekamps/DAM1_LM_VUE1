@@ -2,9 +2,11 @@
     import { ref } from 'vue';
     import Login from './auth/Login.vue';
     import Register from './auth/Register.vue';
+    import Home from './home/Home.vue';
 
-    const blLoginVisible=ref(true);
+    const blLoginVisible=ref(false);
     const blRegistroVisible=ref(false);
+    const blHomeVisible=ref(true);
 
     function mostrarRegistro(){
         blLoginVisible.value=false;
@@ -16,12 +18,18 @@
         blRegistroVisible.value=false;
     }
 
+    function mostrarHome(){
+        blHomeVisible.value=true;
+        blLoginVisible.value=false;
+    }
+
 
 </script>
 
 <template>
-    <Login v-if="blLoginVisible" @logeado="" @solicitaRegistro="mostrarRegistro"/>
-    <Register v-if="blRegistroVisible"/>
+    <Login v-if="blLoginVisible" @logeado="mostrarHome" @solicitaRegistro="mostrarRegistro"/>
+    <Register v-if="blRegistroVisible" @cambiarALogin="mostrarLogin"/>
+    <Home v-if="blHomeVisible"/>
 
 </template>
 
