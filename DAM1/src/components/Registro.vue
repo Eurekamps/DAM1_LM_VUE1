@@ -1,6 +1,8 @@
 <script setup>
     import {ref} from 'vue';
 
+    const emit = defineEmits(['cambioALogin','registerConExito']);
+
     const reemail=ref('');
     const repassword=ref('');
     const reRepetirPassword=ref('');
@@ -9,7 +11,8 @@
     }
 
     function clickCancelar(){
-
+        //alert("PASO 1");
+        emit("cambioALogin");
     }
 
 </script>
