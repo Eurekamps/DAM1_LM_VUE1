@@ -15,7 +15,17 @@
 
 <template>
     <div class="contenedor-home">
+
         <h1>HOME</h1>
+
+        <div v-for="pepe in arPosts" :key="pepe.id" class="contenedor-pepe">
+
+            <img src="https://media.licdn.com/dms/image/v2/C5603AQH4zLBGlQOfiA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1548413104846?e=2147483647&v=beta&t=2zEQPtmi4vZRkbGmm-GnLrE2AshlmVDozGjWAM0fjV0"/>
+            <h1>{{ pepe.titulo }}</h1>
+            <p>{{ pepe.cuerpo }}</p>
+
+        </div>
+        
 
 
         
@@ -28,5 +38,9 @@
 
     .contenedor-home{
         background-color: cornsilk;
+    }
+
+    .contenedor-pepe{
+        border: 3px solid;
     }
 </style>
