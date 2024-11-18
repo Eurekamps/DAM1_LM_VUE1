@@ -8,11 +8,29 @@
         {id:4,titulo:"Titulo Post 4",cuerpo:"Cuerpo del post 4",imagen:""},
     ]);
 
+    const sNuevoTitulo=ref('');
+    const sNuevoCuerpo=ref('');
+
+    function agregarPost(){
+        const idNuevoPost=arPosts.value.length+1;
+        arPosts.value.push({ id:idNuevoPost, 
+            titulo: sNuevoTitulo.value, 
+            cuerpo: sNuevoCuerpo.value, 
+            imagen: '' });
+    }
+
 
 </script>
 
 <template>
     <h1>HOME</h1>
+
+    <div class="contenedor-form">
+        <input v-model="sNuevoTitulo"/>
+        <textarea v-model="sNuevoCuerpo"/>
+        <button @click="agregarPost">Agregar</button>
+
+    </div>
 
     <div v-for="post in arPosts" v-bind:key="post.id" class="contenedor-post">
         <h2>{{ post.titulo }}</h2>
@@ -28,5 +46,10 @@
     .contenedor-post{
         border: 2px solid;
         margin: 5px;
+    }
+
+    .contenedor-form{
+        display: flex;
+        flex-direction: column;
     }
 </style>
