@@ -1,22 +1,20 @@
 <script setup>
     import { ref } from 'vue';
 
-    const arPosts=ref([
-        {id:1,titulo:"Titulo Post 1",cuerpo:"Cuerpo del post 1",imagen:""},
-        {id:2,titulo:"Titulo Post 2",cuerpo:"Cuerpo del post 2",imagen:""},
-        {id:3,titulo:"Titulo Post 3",cuerpo:"Cuerpo del post 3",imagen:""},
-        {id:4,titulo:"Titulo Post 4",cuerpo:"Cuerpo del post 4",imagen:""},
-    ]);
+    const arPosts=ref([]);
 
     const sNuevoTitulo=ref('');
     const sNuevoCuerpo=ref('');
+    const sNombreBotonAgregar=ref('Agregar');
 
     function agregarPost(){
         const idNuevoPost=arPosts.value.length+1;
         arPosts.value.push({ id:idNuevoPost, 
             titulo: sNuevoTitulo.value, 
             cuerpo: sNuevoCuerpo.value, 
-            imagen: '' });
+            imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR6D8Wox_753mhLFRQWR8T_h_IC0n0LNeGag&s' });
+        sNuevoTitulo.value='';
+        sNuevoCuerpo.value='';
     }
 
 
@@ -26,16 +24,16 @@
     <h1>HOME</h1>
 
     <div class="contenedor-form">
-        <input v-model="sNuevoTitulo"/>
-        <textarea v-model="sNuevoCuerpo"/>
-        <button @click="agregarPost">Agregar</button>
+        <input v-model="sNuevoTitulo" placeholder="Nuevo titulo de Post"/>
+        <textarea v-model="sNuevoCuerpo" placeholder="Nuevo cuerpo de Post"/>
+        <button @click="agregarPost">{{ sNombreBotonAgregar }}</button>
 
     </div>
 
     <div v-for="post in arPosts" v-bind:key="post.id" class="contenedor-post">
         <h2>{{ post.titulo }}</h2>
         <p>{{ post.cuerpo }}</p>
-        <img :src="post.imagen"/>
+        <img v-bind:src="post.imagen"/>
     </div>
 
 
