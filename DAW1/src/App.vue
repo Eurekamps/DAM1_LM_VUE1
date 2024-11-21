@@ -1,11 +1,5 @@
 <script setup>
   import Principal from './components/Principal.vue';
-  import { initializeApp } from 'firebase/app'
-  //import { getFirestore, collection } from 'firebase/firestore'
-
-  const firebaseApp = initializeApp({
-
-  })
 
 </script>
 
