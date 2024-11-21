@@ -4,9 +4,9 @@
     import Register from './auth/Register.vue';
     import Home from './home/Home.vue';
 
-    const blLoginVisible=ref(false);
+    const blLoginVisible=ref(true);
     const blRegistroVisible=ref(false);
-    const blHomeVisible=ref(true);
+    const blHomeVisible=ref(false);
 
     function mostrarRegistro(){
         blLoginVisible.value=false;
