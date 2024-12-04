@@ -1,5 +1,9 @@
 <script setup>
     import {ref} from 'vue';
+    import { getRedirectResult, signInWithRedirect, signOut, createUserWithEmailAndPassword} from 'firebase/auth'
+    import { useCurrentUser, useFirebaseAuth } from 'vuefire'
+
+    const auth = useFirebaseAuth() // only exists on client side 
 
     const emit = defineEmits(['cambioALogin','registerConExito']);
 
@@ -8,6 +12,8 @@
     const reRepetirPassword=ref('');
 
     function clickAceptar(){
+        createUserWithEmailAndPassword(auth,reemail.value,repassword.value);
+
     }
 
     function clickCancelar(){
@@ -40,7 +46,7 @@
         </div>
         <br/>
 
-        <button @click="">Aceptar</button>
+        <button @click="clickAceptar">Aceptar</button>
         <button @click="clickCancelar">Cancelar</button>
     </div>
 </template>

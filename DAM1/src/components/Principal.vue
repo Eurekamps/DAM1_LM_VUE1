@@ -6,9 +6,9 @@
 
   const sTitle = ref('Mi Primera App');
 
-  const blLoginVisible=ref(false);
+  const blLoginVisible=ref(true);
   const blRegistroVisible=ref(false);
-  const blHomeVisible=ref(true);
+  const blHomeVisible=ref(false);
 
   // Methods
   function changeMessage() {
