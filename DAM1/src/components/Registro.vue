@@ -12,8 +12,21 @@
     const reRepetirPassword=ref('');
 
     function clickAceptar(){
-        createUserWithEmailAndPassword(auth,reemail.value,repassword.value);
+        createUserWithEmailAndPassword(auth,reemail.value,repassword.value)
+        .then(firebaseCrearUsuarioOK)
+        .catch(firebaseCrearUsuarioFail);
 
+    }
+
+    function firebaseCrearUsuarioOK(userCredential){
+        const user = userCredential.user;
+        emit("cambioALogin");
+    }
+
+    function firebaseCrearUsuarioFail(error){
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert("FALLO EN REGISTRO: "+errorMessage);
     }
 
     function clickCancelar(){
