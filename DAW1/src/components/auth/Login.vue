@@ -2,7 +2,7 @@
     import { ref } from 'vue';
     //import { VueFire, VueFireAuth } from 'vuefire'
 
-    import {signInWithEmailAndPassword,createUserWithEmailAndPassword} from 'firebase/auth'
+    import {signInWithEmailAndPassword,sendPasswordResetEmail} from 'firebase/auth'
     import { useCurrentUser, useFirebaseAuth } from 'vuefire'
 
     const emit = defineEmits(['logeado','solicitaRegistro']);
@@ -14,34 +14,29 @@
 
     function presioneLogin(){
         signInWithEmailAndPassword(auth,sUsuario.value,sPassword.value)
-        .then((userCredential) => {
-            // User signed in successfully
-            const user = userCredential.user;
-            // Perform actions after successful sign-in, e.g., redirect or update UI
-            alert("Usuario autenticado correctamente");
-            emit('logeado');
-        })
-        .catch((reason)=>
-        {
-            //console.error('Failed sign', reason);
-            //error.value = reason;
-            alert("Usuario equivocado intenta otra vez "+reason);
-        });
-
-        //alert("TODO BIEN");
-
-        //window.alert("LOGIN CON USUARIO: "+sUsuario.value+" PASSWORD: "+sPassword.value);
-        /*if(sUsuario.value.trim()=='yony' && sPassword.value.trim()=='1234'){
-            emit('logeado');
-        }
-        else{
-            window.alert("Usuario equivocado intenta otra vez");
-        }*/
+        .then(loginOK)
+        .catch(loginNOK);
         
+    }
+
+    function loginOK(userCredential) {
+        // User signed in successfully
+        const user = userCredential.user;
+        // Perform actions after successful sign-in, e.g., redirect or update UI
+        alert("Usuario autenticado correctamente");
+        emit('logeado');
+    }
+
+    function loginNOK(reason){
+        alert("Usuario equivocado intenta otra vez "+reason);
     }
 
     function presioneRegistrar(){
         emit('solicitaRegistro');
+    }
+
+    function presionaRecuperar(){
+        sendPasswordResetEmail(auth,sUsuario.value);
     }
 
 </script>
@@ -61,6 +56,7 @@
 
         <button @click="presioneLogin">LOGEARSE</button>
         <button @click="presioneRegistrar">REGISTRARSE</button>
+        <button @click="presionaRecuperar">RECUPERAR CONTRASEÑA</button>
     </div>
 </template>
 
