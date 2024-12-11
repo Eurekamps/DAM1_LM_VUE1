@@ -1,6 +1,6 @@
 <script setup>
     import {ref} from 'vue';
-    import { getRedirectResult, signInWithRedirect, signOut, createUserWithEmailAndPassword} from 'firebase/auth'
+    import { signOut, createUserWithEmailAndPassword, sendEmailVerification} from 'firebase/auth'
     import { useCurrentUser, useFirebaseAuth } from 'vuefire'
 
     const auth = useFirebaseAuth() // only exists on client side 
@@ -20,6 +20,7 @@
 
     function firebaseCrearUsuarioOK(userCredential){
         const user = userCredential.user;
+        sendEmailVerification(user);
         emit("cambioALogin");
     }
 

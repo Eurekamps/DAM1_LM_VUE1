@@ -1,5 +1,9 @@
 <script setup>
     import {ref} from 'vue';
+    import { signInWithEmailAndPassword } from 'firebase/auth';
+    import { useCurrentUser, useFirebaseAuth } from 'vuefire'
+
+    const auth = useFirebaseAuth() // only exists on client side 
 
     const emit = defineEmits(['cambioARegistro','loginConExito']);
 
@@ -7,14 +11,24 @@
     const password=ref('');
 
     function clickLogear(){
-        //alert("HE LLEGADO AQUI");
-        if(email.value=='yony' && password.value=='123456'){
+        signInWithEmailAndPassword(auth,email.value,password.value)
+        .then(LoginOK)
+        .catch(loginNOK);
+    }
+
+    function LoginOK(userCredential){
+        if (userCredential.user.emailVerified==true) {
+            console.log("User's email is verified.");
             emit("loginConExito");
-        }
-        else{
-            alert("USUARIO O CONTRASEÑA NO COINCIDEN");
+        } else {
+            console.log("User's email is not verified.");
+            alert("NO ESTA VERIFICADO");
         }
         
+    }
+
+    function loginNOK(error){
+        alert(error);
     }
 
     function clickRegistrame(){
