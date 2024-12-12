@@ -39,8 +39,14 @@
         */
     }
 
-    function descargaOK(documento){
-        alert("------->>>> "+documento.data());
+    function descargaOK(docSnap){
+        if (docSnap.exists()) {
+            console.log("Document data:", docSnap.data());
+            alert("Document data: NAME: "+docSnap.data()['name']);
+        } else {
+        // docSnap.data() will be undefined in this case
+            console.log("No such document!");
+        }
     }
 
     function descargaNOK(error){
