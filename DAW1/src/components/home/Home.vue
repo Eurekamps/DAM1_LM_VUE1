@@ -1,11 +1,16 @@
 <script setup>
     import { ref } from 'vue';
+    //import { db } from '@/firebase';
+    import { useFirestore } from 'vuefire';
+    import { doc, getDoc } from "firebase/firestore";
 
     const arPosts=ref([]);
 
     const sNuevoTitulo=ref('');
     const sNuevoCuerpo=ref('');
     const sNombreBotonAgregar=ref('Agregar');
+
+    const db = useFirestore();
 
     function agregarPost(){
         const idNuevoPost=arPosts.value.length+1;
@@ -17,6 +22,30 @@
         sNuevoCuerpo.value='';
     }
 
+    function descargarPosts(){
+        const docRef = doc(db, "Profiles", "yony1");
+        getDoc(docRef)
+        .then(descargaOK)
+        .catch(descargaNOK);
+
+        //const docSnap = await getDoc(docRef);
+        /*
+        if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+        } else {
+        // docSnap.data() will be undefined in this case
+        console.log("No such document!");
+        }
+        */
+    }
+
+    function descargaOK(documento){
+        alert("------->>>> "+documento.data());
+    }
+
+    function descargaNOK(error){
+
+    }
 
 </script>
 
@@ -27,6 +56,7 @@
         <input v-model="sNuevoTitulo" placeholder="Nuevo titulo de Post"/>
         <textarea v-model="sNuevoCuerpo" placeholder="Nuevo cuerpo de Post"/>
         <button @click="agregarPost">{{ sNombreBotonAgregar }}</button>
+        <button @click="descargarPosts">DESCARGAR POSTS</button>
 
     </div>
 

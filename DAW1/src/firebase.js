@@ -13,4 +13,4 @@ export const firebaseApp = initializeApp({
 })
 
 // used for the firestore refs
-const db = getFirestore(firebaseApp)
+export const db = getFirestore(firebaseApp)
