@@ -2,9 +2,10 @@
     import { ref } from 'vue';
     //import { db } from '@/firebase';
     import { useFirestore } from 'vuefire';
-    import { doc, getDoc } from "firebase/firestore";
+    import { doc, getDoc, getDocs , collection } from "firebase/firestore";
 
-    const arPosts=ref([]);
+    const arPosts=ref([
+    ]);
 
     const sNuevoTitulo=ref('');
     const sNuevoCuerpo=ref('');
@@ -22,27 +23,41 @@
         sNuevoCuerpo.value='';
     }
 
-    function descargarPosts(){
-        const docRef = doc(db, "Profiles", "yony1");
+    function descargarPost(){
+        const docRef = doc(db, "Profiles/yony1/Posts", "post1");
         getDoc(docRef)
         .then(descargaOK)
         .catch(descargaNOK);
-
-        //const docSnap = await getDoc(docRef);
-        /*
-        if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
-        } else {
-        // docSnap.data() will be undefined in this case
-        console.log("No such document!");
-        }
-        */
     }
 
-    function descargaOK(docSnap){
-        if (docSnap.exists()) {
-            console.log("Document data:", docSnap.data());
-            alert("Document data: NAME: "+docSnap.data()['name']);
+    function descargarPosts(){
+        const collectionRef = collection(db,"Profiles/yony1/Posts");
+        getDocs(collectionRef)
+        .then(descargaPostsOK)
+        .catch(descargaPostsNOK);
+    }
+
+    function descargaPostsOK(postsDescargados){
+        postsDescargados.forEach((post) => {
+            // doc.data() is never undefined for query doc snapshots
+            //console.log(doc.id, " => ", doc.data());
+            arPosts.value.push(post.data());
+        });
+    }
+
+    function descargaPostsNOK(error){
+
+    }
+
+    function descargaOK(docPost){
+
+        if (docPost.exists()) {
+            const datos = docPost.data();
+
+            console.log("Document data:", datos);
+            arPosts.value.push(datos);
+            
+            //alert("Document data: TITULO: "+datos['title']);
         } else {
         // docSnap.data() will be undefined in this case
             console.log("No such document!");
@@ -67,9 +82,10 @@
     </div>
 
     <div v-for="post in arPosts" v-bind:key="post.id" class="contenedor-post">
-        <h2>{{ post.titulo }}</h2>
-        <p>{{ post.cuerpo }}</p>
-        <img v-bind:src="post.imagen"/>
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.body }}</p>
+        <h3>{{ post.likes }}</h3>
+        <!--<img v-bind:src="post.imagen"/>-->
     </div>
 
 
