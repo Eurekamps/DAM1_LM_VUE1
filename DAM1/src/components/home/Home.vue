@@ -1,8 +1,12 @@
 <script setup>
     import { ref } from 'vue';
+    import { useFirestore } from 'vuefire';
+    import { doc, getDoc, collection, getDocs  } from "firebase/firestore";
+
+
+    const bbdd=useFirestore();
 
     const arPosts = ref([
-        {id:0,titulo:"Titulo Post 1",cuerpo: "Cuerpo Post 1",urlImg:"https://media.licdn.com/dms/image/v2/C5603AQH4zLBGlQOfiA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1548413104846?e=2147483647&v=beta&t=2zEQPtmi4vZRkbGmm-GnLrE2AshlmVDozGjWAM0fjV0"}
     ]);
 
     const sTitulo = ref('');
@@ -12,6 +16,44 @@
     function agregarPost(){
         const postid=arPosts.value.length;
         arPosts.value.push({id:postid,titulo:sTitulo.value,cuerpo: sCuerpo.value,urlImg:urlImg.value});
+    }
+
+    function descargarPosts(){
+        const postsRef = collection(bbdd, "/Profiles/yony1/Posts");
+        getDocs(postsRef)
+        .then(descargaPostsOK)
+        .catch(descargarPostsNOK);
+
+        /*const docRef = doc(bbdd, "/Profiles/yony1/Posts", "post1");
+        getDoc(docRef)
+        .then(descargaPostOK)
+        .catch(descargaPostNOK);*/
+ 
+    }
+
+    function descargaPostsOK(postsDescargados){
+        for(const post of postsDescargados.docs){
+            console.log(post.id, " => ", post.data());
+            arPosts.value.push(post.data());
+        }
+    }
+
+    function descargarPostsNOK(error){
+        console.log("ERROR--->>>> "+error);
+    }
+
+    function descargaPostOK(postDescargado){
+        if (postDescargado.exists) {
+            console.log("Document data:", postDescargado.data());
+            arPosts.value.push(postDescargado.data());
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }
+
+    function descargaPostNOK(){
+
     }
 
     
@@ -26,13 +68,16 @@
             <textarea v-model="sCuerpo"/>
             <input v-model="urlImg"/>
             <button @click="agregarPost">Agregar Post</button>
+            <button @click="descargarPosts">Descargar Posts</button>
         </div>
 
         <div v-for="pepe in arPosts" :key="pepe.id" class="contenedor-pepe">
 
             <img v-bind:src="pepe.urlImg"/>
-            <h1>{{ pepe.titulo }}</h1>
-            <p>{{ pepe.cuerpo }}</p>
+            <h1>{{ pepe.title }}</h1>
+            <p>{{ pepe.body }}</p>
+            <h2>{{ pepe.likes }}</h2>
+
 
         </div>
         
