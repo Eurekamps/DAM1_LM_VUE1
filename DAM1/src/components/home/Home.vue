@@ -1,7 +1,7 @@
 <script setup>
     import { ref } from 'vue';
     import { useFirestore } from 'vuefire';
-    import { doc, getDoc, collection, getDocs,setDoc} from "firebase/firestore";
+    import { doc, getDoc, collection, getDocs,setDoc,addDoc} from "firebase/firestore";
 
 
     const bbdd=useFirestore();
@@ -15,10 +15,28 @@
     function agregarPost(){
         //const postid=arPosts.value.length;
         //arPosts.value.push({id:postid,titulo:sTitulo.value,cuerpo: sCuerpo.value,urlImg:urlImg.value});
-        const postsRef = collection(bbdd, "/Profiles/yony1/Posts");
-        const postRef=doc(postsRef, "post3");
-        setDoc(postRef,{title:sTitulo.value,body:sCuerpo.value,likes:0});
+        
+        // SET DOC PARA CREAR DOCUMENTO CON ID PREESTABLECIDO O PARA ACTUALIZAR DOCUMENTOS
+        /*const postsRef = collection(bbdd, "/Profiles/yony1/Posts");
+        const postRef=doc(postsRef, Date.now()+"");
+        setDoc(postRef,{title:sTitulo.value,body:sCuerpo.value,likes:0})
+        .then(insertNuevoPostOK)
+        .catch(insertNuevoPostNOK);*/
 
+        const postsRef = collection(bbdd, "/Profiles/yony1/Posts");
+        addDoc(postsRef,{title:sTitulo.value,body:sCuerpo.value,likes:0})
+        .then(insertNuevoPostOK)
+        .catch(insertNuevoPostNOK);
+
+
+    }
+
+    function insertNuevoPostOK(docRef){
+        alert("documento Nuevo creado, con ID: "+docRef.id);
+    }
+
+    function insertNuevoPostNOK(error){
+        
     }
 
     function descargarPosts(){
