@@ -1,21 +1,24 @@
 <script setup>
     import { ref } from 'vue';
     import { useFirestore } from 'vuefire';
-    import { doc, getDoc, collection, getDocs  } from "firebase/firestore";
+    import { doc, getDoc, collection, getDocs,setDoc} from "firebase/firestore";
 
 
     const bbdd=useFirestore();
 
-    const arPosts = ref([
-    ]);
+    const arPosts = ref([]);
 
     const sTitulo = ref('');
     const sCuerpo = ref('');
     const urlImg = ref('');
 
     function agregarPost(){
-        const postid=arPosts.value.length;
-        arPosts.value.push({id:postid,titulo:sTitulo.value,cuerpo: sCuerpo.value,urlImg:urlImg.value});
+        //const postid=arPosts.value.length;
+        //arPosts.value.push({id:postid,titulo:sTitulo.value,cuerpo: sCuerpo.value,urlImg:urlImg.value});
+        const postsRef = collection(bbdd, "/Profiles/yony1/Posts");
+        const postRef=doc(postsRef, "post3");
+        setDoc(postRef,{title:sTitulo.value,body:sCuerpo.value,likes:0});
+
     }
 
     function descargarPosts(){
@@ -32,10 +35,16 @@
     }
 
     function descargaPostsOK(postsDescargados){
+        arPosts.value.splice(0,arPosts.value.length);
+        
         for(const post of postsDescargados.docs){
             console.log(post.id, " => ", post.data());
-            arPosts.value.push(post.data());
+            //arPosts.value.push(post.data());
+            arPosts.value.push({id:post.id,title:post.data().title,body:post.data().body,likes:post.data().likes});
+            //arPosts.value.push(post);
         }
+
+        //console.log("ARRAY RESULTANTE: "+JSON.stringify(arPosts.value));
     }
 
     function descargarPostsNOK(error){
@@ -71,12 +80,12 @@
             <button @click="descargarPosts">Descargar Posts</button>
         </div>
 
-        <div v-for="pepe in arPosts" :key="pepe.id" class="contenedor-pepe">
+        <div v-for="post in arPosts" :key="post.id" class="contenedor-post">
 
-            <img v-bind:src="pepe.urlImg"/>
-            <h1>{{ pepe.title }}</h1>
-            <p>{{ pepe.body }}</p>
-            <h2>{{ pepe.likes }}</h2>
+            <img v-bind:src="post.urlImg"/>
+            <h1>{{ post.title }}</h1>
+            <p>{{ post.body }}</p>
+            <h2>{{ post.likes }}</h2>
 
 
         </div>
@@ -95,7 +104,7 @@
         background-color: cornsilk;
     }
 
-    .contenedor-pepe{
+    .contenedor-post{
         border: 3px solid;
     }
 
