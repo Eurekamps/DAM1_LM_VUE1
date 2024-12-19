@@ -2,7 +2,7 @@
     import { ref } from 'vue';
     //import { db } from '@/firebase';
     import { useFirestore } from 'vuefire';
-    import { doc, getDoc, getDocs , collection } from "firebase/firestore";
+    import { doc, getDoc, getDocs , collection, setDoc } from "firebase/firestore";
 
     const arPosts=ref([
     ]);
@@ -14,13 +14,22 @@
     const db = useFirestore();
 
     function agregarPost(){
+        const datosNuevoPost={ 
+            //id:idNuevoPost, 
+            title: sNuevoTitulo.value, 
+            body: sNuevoCuerpo.value, 
+            likes:0,
+            imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR6D8Wox_753mhLFRQWR8T_h_IC0n0LNeGag&s' };
+
+        const documentoRefPostNuevo=doc(db, "Profiles/yony1/Posts", "post1");
+        setDoc(documentoRefPostNuevo,datosNuevoPost);
+
+        /*
         const idNuevoPost=arPosts.value.length+1;
-        arPosts.value.push({ id:idNuevoPost, 
-            titulo: sNuevoTitulo.value, 
-            cuerpo: sNuevoCuerpo.value, 
-            imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR6D8Wox_753mhLFRQWR8T_h_IC0n0LNeGag&s' });
+        arPosts.value.push();
         sNuevoTitulo.value='';
         sNuevoCuerpo.value='';
+        */
     }
 
     function descargarPost(){
@@ -38,11 +47,17 @@
     }
 
     function descargaPostsOK(postsDescargados){
-        postsDescargados.forEach((post) => {
+        for(const post of postsDescargados.docs){
+            console.log(post.id, " => ", post.data());
+            arPosts.value.push(post.data());
+            //arPosts.value.push({id:post.id,title:post.data().title,body:post.data().body,likes:post.data().likes});
+        }
+
+        /*postsDescargados.forEach((post) => {
             // doc.data() is never undefined for query doc snapshots
             //console.log(doc.id, " => ", doc.data());
             arPosts.value.push(post.data());
-        });
+        });*/
     }
 
     function descargaPostsNOK(error){
