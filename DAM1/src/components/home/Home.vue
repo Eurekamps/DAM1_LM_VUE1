@@ -1,8 +1,10 @@
 <script setup>
     import { ref } from 'vue';
-    import { useFirestore } from 'vuefire';
+    import { useFirestore,useFirebaseAuth } from 'vuefire';
     import { doc, getDoc, collection, getDocs,setDoc,addDoc} from "firebase/firestore";
 
+
+    const auth = useFirebaseAuth();
 
     const bbdd=useFirestore();
 
@@ -22,8 +24,11 @@
         setDoc(postRef,{title:sTitulo.value,body:sCuerpo.value,likes:0})
         .then(insertNuevoPostOK)
         .catch(insertNuevoPostNOK);*/
+        
+        //alert("EL UID DEL USUARIO ACTUAL ES: "+auth.currentUser.uid);
+        const ruta="/Profiles/"+auth.currentUser.uid+"/Posts";
 
-        const postsRef = collection(bbdd, "/Profiles/yony1/Posts");
+        const postsRef = collection(bbdd, ruta);
         addDoc(postsRef,{title:sTitulo.value,body:sCuerpo.value,likes:0})
         .then(insertNuevoPostOK)
         .catch(insertNuevoPostNOK);
@@ -40,7 +45,10 @@
     }
 
     function descargarPosts(){
-        const postsRef = collection(bbdd, "/Profiles/yony1/Posts");
+        alert("EL UID DEL USUARIO ACTUAL ES: "+auth.currentUser.uid);
+        const ruta="/Profiles/"+auth.currentUser.uid+"/Posts";
+
+        const postsRef = collection(bbdd, ruta);
         getDocs(postsRef)
         .then(descargaPostsOK)
         .catch(descargarPostsNOK);
