@@ -1,17 +1,17 @@
 <script setup>
     import { ref } from 'vue';
     //import { db } from '@/firebase';
-    import { useFirestore } from 'vuefire';
+    import { useFirestore,useFirebaseAuth } from 'vuefire';
     import { doc, getDoc, getDocs , collection, setDoc, addDoc } from "firebase/firestore";
 
-    const arPosts=ref([
-    ]);
+    const arPosts=ref([]);
 
     const sNuevoTitulo=ref('');
     const sNuevoCuerpo=ref('');
     const sNombreBotonAgregar=ref('Agregar');
 
     const db = useFirestore();
+    const auth=useFirebaseAuth();
 
     function agregarPost(){
         const datosNuevoPost={ 
@@ -52,13 +52,16 @@
     }
 
     function descargarPosts(){
-        const collectionRef = collection(db,"Profiles/yony1/Posts");
+        alert("EL ID DEL USER HASTA ESTE PUNTO ES: "+auth.currentUser.uid);
+        const collectionRef = collection(db,"Profiles/"+auth.currentUser.uid+"/Posts/");
         getDocs(collectionRef)
         .then(descargaPostsOK)
         .catch(descargaPostsNOK);
     }
 
     function descargaPostsOK(postsDescargados){
+        arPosts.value.splice(0,arPosts.value.length);
+
         for(const post of postsDescargados.docs){
             console.log(post.id, " => ", post.data());
             arPosts.value.push(post.data());

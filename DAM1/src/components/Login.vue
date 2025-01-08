@@ -17,13 +17,14 @@
     }
 
     function LoginOK(userCredential){
-        if (userCredential.user.emailVerified==true) {
+        /*if (userCredential.user.emailVerified==true) {
             console.log("User's email is verified.");
             emit("loginConExito");
         } else {
             console.log("User's email is not verified.");
             alert("NO ESTA VERIFICADO");
-        }
+        }*/
+        emit("loginConExito");
         
     }
 
