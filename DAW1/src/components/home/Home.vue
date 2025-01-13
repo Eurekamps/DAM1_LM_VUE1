@@ -22,7 +22,7 @@
             imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR6D8Wox_753mhLFRQWR8T_h_IC0n0LNeGag&s' };
 
         //const documentoRefPostNuevo=doc(db, "Profiles/yony1/Posts", ""+Date.now());
-        const collectionRefPosts=collection(db,"Profiles/yony1/Posts");
+        const collectionRefPosts=collection(db,"Profiles/"+auth.currentUser.uid+"/Posts");
         //setDoc(documentoRefPostNuevo,datosNuevoPost)
         addDoc(collectionRefPosts,datosNuevoPost)
         .then(postInsertadoOK)
@@ -45,14 +45,14 @@
     }
 
     function descargarPost(){
-        const docRef = doc(db, "Profiles/yony1/Posts", "post1");
+        const docRef = doc(db, "Profiles/"+auth.currentUser.uid+"/Posts", "post1");
         getDoc(docRef)
         .then(descargaOK)
         .catch(descargaNOK);
     }
 
     function descargarPosts(){
-        alert("EL ID DEL USER HASTA ESTE PUNTO ES: "+auth.currentUser.uid);
+        //alert("EL ID DEL USER HASTA ESTE PUNTO ES: "+auth.currentUser.uid);
         const collectionRef = collection(db,"Profiles/"+auth.currentUser.uid+"/Posts/");
         getDocs(collectionRef)
         .then(descargaPostsOK)
