@@ -7,7 +7,9 @@ import App from './App.vue'
 createApp(App).mount('#app')
 */
 
-import './assets/main.css'
+import PrimeVue from 'primevue/config';
+import Aura from '@primevue/themes/aura';
+//import './assets/main.css'
 import { createApp } from 'vue'
 import { VueFire, VueFireAuth } from 'vuefire'
 import App from './App.vue'
@@ -22,6 +24,12 @@ app.use(VueFire, {
     // we will see other modules later on
     VueFireAuth(),
   ],
-})
+});
+
+app.use(PrimeVue, {
+  theme: {
+      preset: Aura
+  }
+});
 
 app.mount('#app')

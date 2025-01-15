@@ -1,7 +1,8 @@
 <script setup>
     import {ref} from 'vue';
     import { signInWithEmailAndPassword } from 'firebase/auth';
-    import { useCurrentUser, useFirebaseAuth } from 'vuefire'
+    import { useCurrentUser, useFirebaseAuth } from 'vuefire';
+    import Button from "primevue/button";
 
     const auth = useFirebaseAuth() // only exists on client side 
 
@@ -56,8 +57,8 @@
         </div>
         <br/>
 
-        <button @click="clickLogear">Logearme</button>
-        <button @click="clickRegistrame">Registrarme</button>
+        <Button @click="clickLogear">Logearme</Button>
+        <Button @click="clickRegistrame">Registrarme</Button>
     </div>
 
     
@@ -65,6 +66,7 @@
 
 <style scoped>
     #contenedor-login{
+        max-width: 1280px;
         background-color: antiquewhite;
     }
 </style>
