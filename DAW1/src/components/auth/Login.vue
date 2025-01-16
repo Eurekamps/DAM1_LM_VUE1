@@ -4,7 +4,6 @@
 
     import {signInWithEmailAndPassword,sendPasswordResetEmail} from 'firebase/auth'
     import { useCurrentUser, useFirebaseAuth } from 'vuefire'
-
     const emit = defineEmits(['logeado','solicitaRegistro']);
 
     const sUsuario=ref('');
@@ -54,9 +53,25 @@
             <input v-model="sPassword" type="password"></input>
         </div>
 
-        <button @click="presioneLogin">LOGEARSE</button>
-        <button @click="presioneRegistrar">REGISTRARSE</button>
-        <button @click="presionaRecuperar">RECUPERAR CONTRASEÑA</button>
+        <!--<v-btn @click="presioneLogin" prepend-icon="$vuetify">LOGEARSE</v-btn>-->
+        <v-btn
+        class="ma-2"
+        color="primary">
+        Accept
+        <v-icon
+          icon="mdi-login"
+          end
+        ></v-icon>
+      </v-btn>
+        <v-btn @click="presioneRegistrar" rounded="xs" >REGISTRARSE</v-btn>
+        <v-btn @click="presionaRecuperar" rounded="xs">RECUPERAR CONTRASEÑA</v-btn>
+
+        <v-chip closable>Yony</v-chip>
+        <v-chip closable>Yony</v-chip>
+        <v-chip closable>Yony</v-chip>
+        <v-chip closable>Yony</v-chip>
+        <v-chip closable>Yony</v-chip>
+
     </div>
 </template>
 

@@ -5,9 +5,9 @@
 
 <template>
 
-  <div id="contenedor-app">
+  <v-app id="contenedor-app">
     <Principal></Principal>
-  </div>
+  </v-app>
   
 
 </template>

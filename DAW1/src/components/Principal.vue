@@ -7,6 +7,7 @@
     const blLoginVisible=ref(true);
     const blRegistroVisible=ref(false);
     const blHomeVisible=ref(false);
+    const drawer=ref(false);
 
     function mostrarRegistro(){
         blLoginVisible.value=false;
@@ -32,8 +33,16 @@
         <Login v-if="blLoginVisible" @logeado="mostrarHome" @solicitaRegistro="mostrarRegistro"/>
         <Register v-if="blRegistroVisible" @cambiarALogin="mostrarLogin"/>
         <Home v-if="blHomeVisible"/>
+        <v-btn @click="drawer = true" > DRAWER</v-btn>
     </div>
-    
+
+    <v-navigation-drawer
+        v-model="drawer"
+        :location="$vuetify.display.mobile ? 'bottom' : undefined"
+        temporary
+      >
+
+    </v-navigation-drawer>
 
 </template>
 
