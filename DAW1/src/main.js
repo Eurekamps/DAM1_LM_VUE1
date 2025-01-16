@@ -5,14 +5,21 @@ import App from './App.vue'
 
 createApp(App).mount('#app')*/
 
-import './assets/main.css'
-import { createApp } from 'vue'
-import { VueFire, VueFireAuth } from 'vuefire'
-import App from './App.vue'
+//import './assets/main.css'
+import { createApp } from 'vue';
+import { VueFire, VueFireAuth } from 'vuefire';
+import App from './App.vue';
 // the file we created above with `database`, `firestore` and other exports
-import { firebaseApp } from './firebase'
+import { firebaseApp } from './firebase';
 
-const app = createApp(App)
+// Vuetify
+import 'vuetify/styles';
+import { createVuetify } from 'vuetify';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
+
+
+const app = createApp(App);
 app.use(VueFire, {
   // imported above but could also just be created here
   firebaseApp,
@@ -20,5 +27,13 @@ app.use(VueFire, {
     // we will see other modules later on
     VueFireAuth(),
   ],
-})
-app.mount('#app')
+});
+
+const vuetify = createVuetify({
+  components,
+  directives,
+});
+
+app.use(vuetify);
+
+app.mount('#app');

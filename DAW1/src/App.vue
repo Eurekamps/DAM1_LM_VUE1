@@ -5,14 +5,7 @@
 
 <template>
 
-  <div>
-    <h1> MI PRIMERA APP</h1>
-  </div>
-  
-  <br/>
-  <br/>
-
-  <div>
+  <div id="contenedor-app">
     <Principal></Principal>
   </div>
   
@@ -20,7 +13,8 @@
 </template>
 
 <style scoped>
-  .contenedores{
-      background-color:rgb(57, 248, 143);
+  #contenedor-app{
+    max-width: 1200px;
+    align-items: center;
   }
 </style>

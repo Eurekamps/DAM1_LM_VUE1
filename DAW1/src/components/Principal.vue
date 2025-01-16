@@ -27,13 +27,24 @@
 </script>
 
 <template>
-    <Login v-if="blLoginVisible" @logeado="mostrarHome" @solicitaRegistro="mostrarRegistro"/>
-    <Register v-if="blRegistroVisible" @cambiarALogin="mostrarLogin"/>
-    <Home v-if="blHomeVisible"/>
+    <div id="contenedor_principal">
+        <h1> MI PRIMERA APP</h1>
+        <Login v-if="blLoginVisible" @logeado="mostrarHome" @solicitaRegistro="mostrarRegistro"/>
+        <Register v-if="blRegistroVisible" @cambiarALogin="mostrarLogin"/>
+        <Home v-if="blHomeVisible"/>
+    </div>
+    
 
 </template>
 
 <style scoped>
+
+    #contenedor_principal{
+        background-color:rgb(134, 255, 176);
+        max-width: 600px;
+
+    }
+
     
 
 </style>
