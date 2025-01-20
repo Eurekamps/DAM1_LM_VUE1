@@ -3,6 +3,8 @@
     import { createUserWithEmailAndPassword,sendEmailVerification } from 'firebase/auth';
     import { useFirebaseAuth,useFirestore } from 'vuefire';
     import {collection, addDoc, setDoc,doc } from "firebase/firestore";
+    import { VFileUpload } from 'vuetify/labs/VFileUpload'
+    import { getStorage, uploadBytesResumable, getDownloadURL, ref as refStorage } from "firebase/storage";
 
     const sUsuarioRe=ref('');
     const sPasswordRe=ref('');
@@ -10,10 +12,15 @@
     const errorMensaje=ref('');
     const buenMensaje=ref('');
     const sNombreUser=ref('');
+    const files=ref([]);
+    const isUploading=ref(false);
+    const uploadProgress=ref(0);
+    const downloadURL=ref('');
 
     const emit=defineEmits(["cambiarALogin"]);
     const auth=useFirebaseAuth();
     const db = useFirestore();
+    const storage = getStorage();
 
     function presioneAceptar(){
         errorMensaje.value="";
@@ -74,6 +81,53 @@
         emit("cambiarALogin");
     }
 
+    function uploadFile() {
+      if (!this.files.length) return;
+
+      // For simplicity, let's upload only the first file in the array
+      const file = this.files[0];
+      const fileName = file.name;
+
+      this.isUploading = true;
+      this.uploadProgress = 0;
+      this.downloadURL = null;
+
+      try {
+        // Create a reference in Firebase Storage
+        const storageRef = refStorage(storage, `uploads/${fileName}`); // AQUI USARE REFSTORAGE EN LUGAR DE REF
+
+        // Start upload with progress tracking
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            this.uploadProgress = Math.round(progress);
+          },
+          (error) => {
+            console.error("Upload error:", error);
+            this.isUploading = false;
+          },
+          () => {
+            // Upload completed, get download URL
+            getDownloadURL(uploadTask.snapshot.ref)
+              .then((url) => {
+                this.downloadURL = url;
+                console.log("File available at", url);
+              })
+              .finally(() => {
+                this.isUploading = false;
+              });
+          }
+        );
+      } catch (error) {
+        console.error("Unexpected error uploading file:", error);
+        this.isUploading = false;
+      }
+    }
+
 </script>
 
 <template>
@@ -100,8 +154,42 @@
             <input v-model="sNombreUser" type="text"></input>
         </div>
 
-        <button @click="presioneAceptar">ACEPTAR</button>
-        <button @click="presioneCancelar">CANCELAR</button>
+        <v-container class="pa-4">
+    <!-- The v-file-upload component from vuetify-file-upload -->
+    <v-file-upload
+      v-model="files"
+      accept="image/*"
+      label="Choose a file"
+      :disabled="isUploading"
+    />
+
+    <v-btn
+      color="primary"
+      class="mt-4"
+      :disabled="!files.length || isUploading"
+      @click="uploadFile"
+    >
+      Upload
+    </v-btn>
+
+    <v-progress-linear
+      v-if="isUploading"
+      class="mt-4"
+      :value="uploadProgress"
+      color="blue"
+      height="6"
+      striped
+      animated
+    ></v-progress-linear>
+
+    <div class="mt-4" v-if="downloadURL">
+      <h3>File uploaded successfully!</h3>
+      <a :href="downloadURL" target="_blank">{{ downloadURL }}</a>
+    </div>
+  </v-container>
+
+        <v-btn @click="presioneAceptar">ACEPTAR</v-btn>
+        <v-btn @click="presioneCancelar">CANCELAR</v-btn>
 
         <label>{{ errorMensaje }}</label>
         <label>{{ buenMensaje }}</label>
