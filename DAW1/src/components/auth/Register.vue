@@ -82,15 +82,15 @@
     }
 
     function uploadFile() {
-      if (!this.files.length) return;
+      if (!files.value.length) return;
 
       // For simplicity, let's upload only the first file in the array
-      const file = this.files[0];
+      const file = files.value[0];
       const fileName = file.name;
 
-      this.isUploading = true;
-      this.uploadProgress = 0;
-      this.downloadURL = null;
+      isUploading.value = true;
+      uploadProgress.value = 0;
+      downloadURL.value = null;
 
       try {
         // Create a reference in Firebase Storage
@@ -104,27 +104,27 @@
           (snapshot) => {
             const progress =
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            this.uploadProgress = Math.round(progress);
+            uploadProgress.value = Math.round(progress);
           },
           (error) => {
             console.error("Upload error:", error);
-            this.isUploading = false;
+            isUploading.value = false;
           },
           () => {
             // Upload completed, get download URL
             getDownloadURL(uploadTask.snapshot.ref)
               .then((url) => {
-                this.downloadURL = url;
+                downloadURL.value = url;
                 console.log("File available at", url);
               })
               .finally(() => {
-                this.isUploading = false;
+                isUploading.value = false;
               });
           }
         );
       } catch (error) {
         console.error("Unexpected error uploading file:", error);
-        this.isUploading = false;
+        isUploading = false;
       }
     }
 
