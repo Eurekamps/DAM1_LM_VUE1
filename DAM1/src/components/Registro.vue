@@ -3,11 +3,23 @@
     import { signOut, createUserWithEmailAndPassword, sendEmailVerification} from 'firebase/auth'
     import { useCurrentUser, useFirebaseAuth } from 'vuefire'
     import { addDoc, collection, doc, setDoc} from "firebase/firestore";
-    import { useFirestore } from 'vuefire';
+    import { ref as storageRef, uploadBytesResumable, getDownloadURL,getStorage } from 'firebase/storage';
+    import { useFirestore} from 'vuefire';
+    import FileUpload from 'primevue/fileupload';
+    import { useToast } from "primevue/usetoast";
+    import Toast from 'primevue/toast';
+    import Button from "primevue/button";
+
+    const toast = useToast();
+    const fileupload = ref();
+    const uploadProgress = ref(0);
+    const uploadUrl = ref('');
 
     const bbdd=useFirestore();
 
     const auth = useFirebaseAuth(); // only exists on client side 
+
+    const storage = getStorage();
 
     const emit = defineEmits(['cambioALogin','registerConExito']);
 
@@ -15,6 +27,39 @@
     const repassword=ref('');
     const reRepetirPassword=ref('');
     const var_nombre=ref('');
+
+    function upload(){
+
+        const file = fileupload.value;
+
+      if (!file) {
+        alert('Please select a file!');
+        return;
+      }
+
+      const fileRef = storageRef(storage, `uploads/DAM/${file.name}`);
+      const uploadTask = uploadBytesResumable(fileRef, file);
+
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          uploadProgress.value = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        },
+        (error) => {
+          console.error('Upload failed', error);
+        },
+        async () => {
+          uploadUrl.value = await getDownloadURL(uploadTask.snapshot.ref);
+          alert('File uploaded successfully!');
+        }
+      );
+
+
+    };
+
+    function onUpload(){
+        toast.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 });
+    };
 
     function clickAceptar(){
         createUserWithEmailAndPassword(auth,reemail.value,repassword.value)
@@ -85,6 +130,12 @@
         <div>
             <label for="name">Nombre:</label>
             <input type="text" id="name" v-model="var_nombre" />
+        </div>
+
+        <div class="card flex flex-col gap-6 items-center justify-center">
+            <Toast />
+            <FileUpload ref="fileupload" mode="basic" name="demo[]" url="/api/upload" accept="image/*" :maxFileSize="1000000" @upload="onUpload" />
+            <Button label="Upload" @click="upload" severity="secondary" />
         </div>
 
         <button @click="clickAceptar">Aceptar</button>

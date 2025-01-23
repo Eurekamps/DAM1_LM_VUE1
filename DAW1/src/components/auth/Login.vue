@@ -56,7 +56,8 @@
         <!--<v-btn @click="presioneLogin" prepend-icon="$vuetify">LOGEARSE</v-btn>-->
         <v-btn
         class="ma-2"
-        color="primary">
+        color="primary"
+        @click="presioneLogin">
         Accept
         <v-icon
           icon="mdi-login"

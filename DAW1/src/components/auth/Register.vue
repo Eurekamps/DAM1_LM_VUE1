@@ -40,7 +40,8 @@
     function registerOK(usuarioRegistrado){
         buenMensaje.value="Registro completado";
         //sendEmailVerification(auth.currentUser);
-        crearPerfil();
+        //crearPerfil();
+        uploadFile();
         
     }
 
@@ -61,7 +62,7 @@
     function crearPerfil(){
         const profileRef = collection(db, "/Profiles");
         const postRef=doc(profileRef, auth.currentUser.uid);
-        setDoc(postRef,{nombre:sNombreUser.value})
+        setDoc(postRef,{nombre:sNombreUser.value,urlAvatar:downloadURL.value})
         //addDoc(collectionRefPerfiles,datosNuevoPerfil)
         .then(perfilInsertadoOK)
         .catch(perfilInsertadoNOK);
@@ -82,7 +83,11 @@
     }
 
     function uploadFile() {
-      if (!files.value.length) return;
+      //console.log("LLEGUE AQUI!!!!  ");
+      if (files.value.length==0){
+        crearPerfil();
+        return;
+      } 
 
       // For simplicity, let's upload only the first file in the array
       const file = files.value[0];
@@ -92,9 +97,10 @@
       uploadProgress.value = 0;
       downloadURL.value = null;
 
+      
       try {
         // Create a reference in Firebase Storage
-        const storageRef = refStorage(storage, `uploads/${fileName}`); // AQUI USARE REFSTORAGE EN LUGAR DE REF
+        const storageRef = refStorage(storage, 'uploads/DAW1/'+auth.currentUser.uid+'/'+fileName); // AQUI USARE REFSTORAGE EN LUGAR DE REF
 
         // Start upload with progress tracking
         const uploadTask = uploadBytesResumable(storageRef, file);
@@ -109,6 +115,8 @@
           (error) => {
             console.error("Upload error:", error);
             isUploading.value = false;
+            downloadURL.value = "MI URL DE AVATAR.....";
+            crearPerfil();
           },
           () => {
             // Upload completed, get download URL
@@ -116,6 +124,7 @@
               .then((url) => {
                 downloadURL.value = url;
                 console.log("File available at", url);
+                crearPerfil();
               })
               .finally(() => {
                 isUploading.value = false;
@@ -163,14 +172,16 @@
       :disabled="isUploading"
     />
 
+    <!--
     <v-btn
       color="primary"
       class="mt-4"
-      :disabled="!files.length || isUploading"
+      :disabled="files.length==0 || isUploading"
       @click="uploadFile"
     >
       Upload
     </v-btn>
+-->
 
     <v-progress-linear
       v-if="isUploading"

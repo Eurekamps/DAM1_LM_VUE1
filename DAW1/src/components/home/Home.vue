@@ -1,10 +1,13 @@
 <script setup>
-    import { ref } from 'vue';
+    import { ref,onMounted } from 'vue';
     //import { db } from '@/firebase';
     import { useFirestore,useFirebaseAuth } from 'vuefire';
     import { doc, getDoc, getDocs , collection, setDoc, addDoc } from "firebase/firestore";
 
     const arPosts=ref([]);
+
+    const sNombreUsuario=ref('');
+    const sUrlAvatar=ref('');
 
     const sNuevoTitulo=ref('');
     const sNuevoCuerpo=ref('');
@@ -12,6 +15,11 @@
 
     const db = useFirestore();
     const auth=useFirebaseAuth();
+
+    //ESTA FUNCION SIEMPRE SE EJECUTA AL PINTAR UN COMPONENTE EN LA PANTALLA
+    onMounted(() => {
+        descargarPerfil();
+    });
 
     function agregarPost(){
         const datosNuevoPost={ 
@@ -59,6 +67,13 @@
         .catch(descargaPostsNOK);
     }
 
+    function descargarPerfil(){
+        const docRef = doc(db, "Profiles/", auth.currentUser.uid);
+        getDoc(docRef)
+        .then(descargaOKPerfil)
+        .catch(descargaNOKPerfil);
+    }
+
     function descargaPostsOK(postsDescargados){
         arPosts.value.splice(0,arPosts.value.length);
 
@@ -85,7 +100,7 @@
             const datos = docPost.data();
 
             console.log("Document data:", datos);
-            arPosts.value.push(datos);
+            //arPosts.value.push(datos);
             
             //alert("Document data: TITULO: "+datos['title']);
         } else {
@@ -98,10 +113,33 @@
 
     }
 
+    function descargaOKPerfil(docPerfil){
+
+    if (docPerfil.exists()) {
+        const datos = docPerfil.data();
+
+        console.log("Document data:", datos);
+        sNombreUsuario.value=datos['nombre'];
+        sUrlAvatar.value=datos['urlAvatar'];
+        
+        //alert("Document data: TITULO: "+datos['title']);
+    } else {
+    // docSnap.data() will be undefined in this case
+        console.log("No such document!");
+    }
+    }
+
+    function descargaNOKPerfil(error){
+
+    }
+
 </script>
 
 <template>
     <h1>HOME</h1>
+
+    <h1>{{sNombreUsuario}}</h1>
+    <img v-bind:src="sUrlAvatar"/>
 
     <div class="contenedor-form">
         <input v-model="sNuevoTitulo" placeholder="Nuevo titulo de Post"/>

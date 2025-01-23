@@ -15,6 +15,7 @@ import { VueFire, VueFireAuth } from 'vuefire'
 import App from './App.vue'
 // the file we created above with `database`, `firestore` and other exports
 import { firebaseApp } from './firebase'
+import ToastService from 'primevue/toastservice';
 
 const app = createApp(App)
 app.use(VueFire, {
@@ -31,5 +32,7 @@ app.use(PrimeVue, {
       preset: Aura
   }
 });
+
+app.use(ToastService);
 
 app.mount('#app')
