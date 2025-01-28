@@ -109,12 +109,12 @@ const items = ref([
     </Drawer>
     <Button icon="pi pi-arrow-right" @click="blDrawerVisible = true" />
     <ProgressSpinner></ProgressSpinner>
-    <div class="card flex flex-wrap gap-2">
+    <!--div class="card flex flex-wrap gap-2">
         <Chip label="Apple" icon="pi pi-apple" removable/>
         <Chip label="Facebook" icon="pi pi-facebook" removable/>
         <Chip label="Google" icon="pi pi-google" removable/>
         <Chip label="Microsoft" icon="pi pi-microsoft" removable />
-    </div>
+    </div-->
 
     
   </div>

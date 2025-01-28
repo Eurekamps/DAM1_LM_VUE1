@@ -28,16 +28,16 @@
     const reRepetirPassword=ref('');
     const var_nombre=ref('');
 
-    function upload(){
+    function uploadAvatar(usuario_UID){
 
-        const file = fileupload.value;
+        const file = fileupload.value.files[0];
 
       if (!file) {
         alert('Please select a file!');
         return;
       }
 
-      const fileRef = storageRef(storage, `uploads/DAM/${file.name}`);
+      const fileRef = storageRef(storage, 'uploads/DAW1/'+auth.currentUser.uid+'/'+file.name);
       const uploadTask = uploadBytesResumable(fileRef, file);
 
       uploadTask.on(
@@ -47,10 +47,12 @@
         },
         (error) => {
           console.error('Upload failed', error);
+          createNuevoPerfil("https://upload.wikimedia.org/wikipedia/en/8/86/Avatar_Aang.png");
         },
         async () => {
           uploadUrl.value = await getDownloadURL(uploadTask.snapshot.ref);
-          alert('File uploaded successfully!');
+          createNuevoPerfil(uploadUrl.value );
+          //alert('File uploaded successfully!');
         }
       );
 
@@ -70,13 +72,12 @@
 
     function firebaseCrearUsuarioOK(userCredential){
         const user = userCredential.user;
-        sendEmailVerification(user);
-        const profileRef = collection(bbdd, "/Profiles");
-        //addDoc(profileRef,{nombre:var_nombre.value})
-        const postRef=doc(profileRef, auth.currentUser.uid);
-        setDoc(postRef,{nombre:var_nombre.value})
-        .then(insertNuevoPerfilOK)
-        .catch(insertNuevoPerfilNOK);
+        //sendEmailVerification(user);
+        uploadAvatar(auth.currentUser.uid);//PASO 2
+
+        /*
+        
+        */
 
         
     }
@@ -85,6 +86,18 @@
         const errorCode = error.code;
         const errorMessage = error.message;
         alert("FALLO EN REGISTRO: "+errorMessage);
+    }
+
+    function createNuevoPerfil(urlAvatar){
+        const profileRef = collection(bbdd, "/Profiles");
+        const postRef=doc(profileRef, auth.currentUser.uid);
+        setDoc(postRef,
+        {
+            nombre:var_nombre.value,
+            urlavatar:urlAvatar
+        })
+        .then(insertNuevoPerfilOK)
+        .catch(insertNuevoPerfilNOK);
     }
 
     function insertNuevoPerfilOK(docRef){
@@ -132,11 +145,19 @@
             <input type="text" id="name" v-model="var_nombre" />
         </div>
 
-        <div class="card flex flex-col gap-6 items-center justify-center">
-            <Toast />
-            <FileUpload ref="fileupload" mode="basic" name="demo[]" url="/api/upload" accept="image/*" :maxFileSize="1000000" @upload="onUpload" />
-            <Button label="Upload" @click="upload" severity="secondary" />
-        </div>
+<!-- File Upload -->
+<div class="card flex flex-col gap-6 items-center justify-center">
+      <Toast />
+      <FileUpload
+        ref="fileupload"
+        mode="basic"
+        accept="image/*"
+        :maxFileSize="1000000"
+      />
+    </div>
+
+    <!-- Progress Indicator -->
+    <h3>Progreso de subida: {{ uploadProgress.toFixed(2) }}%</h3>
 
         <button @click="clickAceptar">Aceptar</button>
         <button @click="clickCancelar">Cancelar</button>
