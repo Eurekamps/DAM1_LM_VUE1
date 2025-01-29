@@ -37,7 +37,7 @@
         return;
       }
 
-      const fileRef = storageRef(storage, 'uploads/DAW1/'+auth.currentUser.uid+'/'+file.name);
+      const fileRef = storageRef(storage, 'uploads/DAM1/'+auth.currentUser.uid+'/'+file.name);
       const uploadTask = uploadBytesResumable(fileRef, file);
 
       uploadTask.on(
@@ -152,7 +152,7 @@
         ref="fileupload"
         mode="basic"
         accept="image/*"
-        :maxFileSize="1000000"
+        :maxFileSize="10000000"
       />
     </div>
 

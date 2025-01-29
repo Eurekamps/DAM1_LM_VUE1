@@ -1,5 +1,5 @@
 <script setup>
-    import { ref } from 'vue';
+    import { ref,onMounted } from 'vue';
     import { useFirestore,useFirebaseAuth } from 'vuefire';
     import { doc, getDoc, collection, getDocs,setDoc,addDoc} from "firebase/firestore";
 
@@ -13,6 +13,14 @@
     const sTitulo = ref('');
     const sCuerpo = ref('');
     const urlImg = ref('');
+
+    const sNombrePerfil=ref('');
+    const sUrlAvatar=ref('');
+
+    //ESTA FUNCION SIEMPRE SE EJECUTA AL PINTAR UN COMPONENTE EN LA PANTALLA
+    onMounted(() => {
+        descargarPerfil();
+    });
 
     function agregarPost(){
         //const postid=arPosts.value.length;
@@ -91,6 +99,29 @@
 
     }
 
+    function descargarPerfil(){
+        const docRef = doc(bbdd, "/Profiles/", auth.currentUser.uid);
+        getDoc(docRef)
+        .then(descargaPerfiltOK)
+        .catch(descargaPerfilNOK);
+    }
+
+    function descargaPerfiltOK(perfilDescargado){
+        if (perfilDescargado.exists) {
+            console.log("Datos del Perfil:", perfilDescargado.data());
+            sNombrePerfil.value=perfilDescargado.data().nombre;
+            sUrlAvatar.value=perfilDescargado.data().urlavatar;
+            
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("Perfil NO EXISTA");
+        }
+    }
+
+    function descargaPerfilNOK(){
+
+    }
+
     
 </script>
 
@@ -98,6 +129,10 @@
     <div class="contenedor-home">
 
         <h1>HOME</h1>
+
+        <h2>{{ sNombrePerfil }}</h2>
+        <img v-bind:src="sUrlAvatar"/>
+
         <div class="contenedor-agregar">
             <input v-model="sTitulo"/>
             <textarea v-model="sCuerpo"/>

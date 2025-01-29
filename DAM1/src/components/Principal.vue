@@ -61,8 +61,8 @@ const items = ref([
 
   const sTitle = ref('Mi Primera App');
 
-  const blLoginVisible=ref(false);
-  const blRegistroVisible=ref(true);
+  const blLoginVisible=ref(true);
+  const blRegistroVisible=ref(false);
   const blHomeVisible=ref(false);
   const blDrawerVisible=ref(false);
 
