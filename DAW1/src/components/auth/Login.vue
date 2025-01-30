@@ -1,8 +1,9 @@
 <script setup>
-    import { ref } from 'vue';
+    import { ref,onMounted } from 'vue';
     //import { VueFire, VueFireAuth } from 'vuefire'
 
-    import {signInWithEmailAndPassword,sendPasswordResetEmail} from 'firebase/auth'
+    import {signInWithEmailAndPassword,sendPasswordResetEmail,
+        setPersistence, browserLocalPersistence,onAuthStateChanged} from 'firebase/auth'
     import { useCurrentUser, useFirebaseAuth } from 'vuefire'
     const emit = defineEmits(['logeado','solicitaRegistro']);
 
@@ -10,6 +11,29 @@
     const sPassword=ref('');
 
     const auth = useFirebaseAuth();
+
+    onMounted(() => {
+        setPersistence(auth, browserLocalPersistence)
+        .then(() => {
+            console.log("Persistence set to local.");
+        })
+        .catch((error) => {
+            console.error("Error setting persistence:", error);
+        });
+
+
+        onAuthStateChanged(auth, estadoDeLaSesionDeUsuario);
+
+    });
+
+    function estadoDeLaSesionDeUsuario(usuario){
+        if (usuario!=null) {
+            //alert("Usuario ya se ha logeado previamente");
+            emit('logeado');
+        } else {
+            alert("Usuario no tiene sesion activa");
+        }
+    }
 
     function presioneLogin(){
         signInWithEmailAndPassword(auth,sUsuario.value,sPassword.value)

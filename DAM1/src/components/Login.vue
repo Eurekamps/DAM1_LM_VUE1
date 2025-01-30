@@ -1,5 +1,5 @@
 <script setup>
-    import {ref} from 'vue';
+    import {onMounted, ref} from 'vue';
     import { signInWithEmailAndPassword } from 'firebase/auth';
     import { useCurrentUser, useFirebaseAuth } from 'vuefire';
     import Button from "primevue/button";
@@ -10,6 +10,8 @@
 
     const email=ref('');
     const password=ref('');
+
+
 
     function clickLogear(){
         signInWithEmailAndPassword(auth,email.value,password.value)
