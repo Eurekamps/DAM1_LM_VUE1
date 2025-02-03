@@ -3,6 +3,7 @@
     //import { db } from '@/firebase';
     import { useFirestore,useFirebaseAuth } from 'vuefire';
     import { doc, getDoc, getDocs , collection, setDoc, addDoc } from "firebase/firestore";
+    import PostItem from '../elements/PostItem.vue';
 
     const arPosts=ref([]);
 
@@ -150,10 +151,7 @@
     </div>
 
     <div v-for="post in arPosts" v-bind:key="post.id" class="contenedor-post">
-        <h2>{{ post.title }}</h2>
-        <p>{{ post.body }}</p>
-        <h3>{{ post.likes }}</h3>
-        <!--<img v-bind:src="post.imagen"/>-->
+        <PostItem :title="post.title" :body="post.body" :likes="post.likes"></PostItem>
     </div>
 
 
@@ -161,10 +159,7 @@
 </template>
 
 <style scoped>
-    .contenedor-post{
-        border: 2px solid;
-        margin: 5px;
-    }
+    
 
     .contenedor-form{
         display: flex;
