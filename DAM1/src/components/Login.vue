@@ -1,6 +1,6 @@
 <script setup>
     import {onMounted, ref} from 'vue';
-    import { signInWithEmailAndPassword } from 'firebase/auth';
+    import { signInWithEmailAndPassword,onAuthStateChanged } from 'firebase/auth';
     import { useCurrentUser, useFirebaseAuth } from 'vuefire';
     import Button from "primevue/button";
 
@@ -11,6 +11,16 @@
     const email=ref('');
     const password=ref('');
 
+
+    onMounted(() => {
+        onAuthStateChanged(auth, estadoDeUsuario);
+    });
+
+    function estadoDeUsuario(user) {
+        if (user!=null) {
+            emit("loginConExito");
+        }
+    }
 
 
     function clickLogear(){

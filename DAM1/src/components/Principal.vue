@@ -8,8 +8,12 @@
 import ProgressSpinner from 'primevue/progressspinner';
 import Chip from 'primevue/chip';
 
+import { useCurrentUser, useFirebaseAuth } from 'vuefire';
+
 import Menubar from 'primevue/menubar';
 
+
+const auth = useFirebaseAuth();
 
 const items = ref([
     {
@@ -105,10 +109,10 @@ const items = ref([
         <Button>OPCION1</Button>
         <Button>OPCION2</Button>
         <Button>OPCION3</Button>
-        <Button>OPCION4</Button>
+        <Button @click="auth.signOut()">Logout</Button>
     </Drawer>
-    <Button icon="pi pi-arrow-right" @click="blDrawerVisible = true" />
-    <ProgressSpinner></ProgressSpinner>
+    <Button icon="pi pi-arrow-right" @click="blDrawerVisible = true" label="DRAWER"/>
+    <!--<ProgressSpinner></ProgressSpinner>-->
     <!--div class="card flex flex-wrap gap-2">
         <Chip label="Apple" icon="pi pi-apple" removable/>
         <Chip label="Facebook" icon="pi pi-facebook" removable/>

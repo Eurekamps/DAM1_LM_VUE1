@@ -2,6 +2,7 @@
     import { ref,onMounted } from 'vue';
     import { useFirestore,useFirebaseAuth } from 'vuefire';
     import { doc, getDoc, collection, getDocs,setDoc,addDoc} from "firebase/firestore";
+    import PostItem from '../elementos/PostItem.vue';
 
 
     const auth = useFirebaseAuth();
@@ -142,19 +143,16 @@
         </div>
 
         <div v-for="post in arPosts" :key="post.id" class="contenedor-post">
-
+            
+            <PostItem :title="post.title"></PostItem>
+            <!--
             <img v-bind:src="post.urlImg"/>
             <h1>{{ post.title }}</h1>
             <p>{{ post.body }}</p>
             <h2>{{ post.likes }}</h2>
-
+        -->
 
         </div>
-        
-
-
-        
-
 
     </div>
 </template>
