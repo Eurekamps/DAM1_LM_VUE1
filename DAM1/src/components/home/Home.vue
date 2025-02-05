@@ -1,8 +1,9 @@
 <script setup>
     import { ref,onMounted } from 'vue';
     import { useFirestore,useFirebaseAuth } from 'vuefire';
-    import { doc, getDoc, collection, getDocs,setDoc,addDoc} from "firebase/firestore";
+    import { doc, getDoc, collection, getDocs,setDoc,addDoc,query, where } from "firebase/firestore";
     import PostItem from '../elementos/PostItem.vue';
+    import { InputText } from 'primevue';
 
 
     const auth = useFirebaseAuth();
@@ -14,6 +15,7 @@
     const sTitulo = ref('');
     const sCuerpo = ref('');
     const urlImg = ref('');
+    const sTextoBusqueda = ref('');
 
     const sNombrePerfil=ref('');
     const sUrlAvatar=ref('');
@@ -46,7 +48,8 @@
     }
 
     function insertNuevoPostOK(docRef){
-        alert("documento Nuevo creado, con ID: "+docRef.id);
+        descargarPosts();
+        //alert("documento Nuevo creado, con ID: "+docRef.id);
     }
 
     function insertNuevoPostNOK(error){
@@ -54,11 +57,16 @@
     }
 
     function descargarPosts(){
-        alert("EL UID DEL USUARIO ACTUAL ES: "+auth.currentUser.uid);
+        //alert("EL UID DEL USUARIO ACTUAL ES: "+auth.currentUser.uid);
         const ruta="/Profiles/"+auth.currentUser.uid+"/Posts";
 
         const postsRef = collection(bbdd, ruta);
-        getDocs(postsRef)
+
+        //const consulta = query(postsRef, where("title", ">=", sTextoBusqueda.value));
+        //const consulta = query(postsRef, where("likes", ">", 70));
+        const consulta = query(postsRef, where("tags", "array-contains", sTextoBusqueda.value));
+
+        getDocs(consulta)
         .then(descargaPostsOK)
         .catch(descargarPostsNOK);
 
@@ -132,25 +140,24 @@
         <h1>HOME</h1>
 
         <h2>{{ sNombrePerfil }}</h2>
-        <img v-bind:src="sUrlAvatar"/>
+        <img v-bind:src="sUrlAvatar" width="50" height="50"/>
 
         <div class="contenedor-agregar">
             <input v-model="sTitulo"/>
             <textarea v-model="sCuerpo"/>
-            <input v-model="urlImg"/>
+            <!--<input v-model="urlImg"/>-->
+            
+            <InputText type="text" v-model="sTextoBusqueda" placeholder="Texto de Busqueda"/>
+
             <button @click="agregarPost">Agregar Post</button>
             <button @click="descargarPosts">Descargar Posts</button>
         </div>
 
-        <div v-for="post in arPosts" :key="post.id" class="contenedor-post">
+
+
+        <div v-for="post in arPosts" :key="post.id">
             
-            <PostItem :title="post.title"></PostItem>
-            <!--
-            <img v-bind:src="post.urlImg"/>
-            <h1>{{ post.title }}</h1>
-            <p>{{ post.body }}</p>
-            <h2>{{ post.likes }}</h2>
-        -->
+            <PostItem :title="post.title" :body="post.body" :likes="post.likes"></PostItem>
 
         </div>
 
@@ -163,9 +170,7 @@
         background-color: cornsilk;
     }
 
-    .contenedor-post{
-        border: 3px solid;
-    }
+    
 
     .contenedor-agregar{
         display: flex;

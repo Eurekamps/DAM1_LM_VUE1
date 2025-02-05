@@ -19,5 +19,8 @@ defineProps({
 </template>
 
 <style scoped>
+    .div-post{
+        border: 3px solid;
+    }
 
 </style>
