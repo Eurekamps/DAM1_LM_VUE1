@@ -2,7 +2,7 @@
     import { ref,onMounted } from 'vue';
     //import { db } from '@/firebase';
     import { useFirestore,useFirebaseAuth } from 'vuefire';
-    import { doc, getDoc, getDocs , collection, setDoc, addDoc } from "firebase/firestore";
+    import { doc, getDoc, getDocs , collection, setDoc, addDoc,query, where  } from "firebase/firestore";
     import PostItem from '../elements/PostItem.vue';
 
     const arPosts=ref([]);
@@ -13,6 +13,8 @@
     const sNuevoTitulo=ref('');
     const sNuevoCuerpo=ref('');
     const sNombreBotonAgregar=ref('Agregar');
+
+    const sTextoBusqueda=ref('');
 
     const db = useFirestore();
     const auth=useFirebaseAuth();
@@ -63,7 +65,11 @@
     function descargarPosts(){
         //alert("EL ID DEL USER HASTA ESTE PUNTO ES: "+auth.currentUser.uid);
         const collectionRef = collection(db,"Profiles/"+auth.currentUser.uid+"/Posts/");
-        getDocs(collectionRef)
+
+        //const consulta = query(collectionRef, where("title", ">=", sTextoBusqueda.value));
+        const consulta = query(collectionRef, where("tags", "array-contains", sTextoBusqueda.value));
+
+        getDocs(consulta)
         .then(descargaPostsOK)
         .catch(descargaPostsNOK);
     }
@@ -146,6 +152,7 @@
         <input v-model="sNuevoTitulo" placeholder="Nuevo titulo de Post"/>
         <textarea v-model="sNuevoCuerpo" placeholder="Nuevo cuerpo de Post"/>
         <button @click="agregarPost">{{ sNombreBotonAgregar }}</button>
+        <v-text-field label="Texto de busqueda" v-model="sTextoBusqueda"></v-text-field>
         <button @click="descargarPosts">DESCARGAR POSTS</button>
 
     </div>
