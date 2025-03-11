@@ -4,6 +4,7 @@
     import { doc, getDoc, collection, getDocs,setDoc,addDoc,query, where } from "firebase/firestore";
     import PostItem from '../elementos/PostItem.vue';
     import { InputText } from 'primevue';
+    import PaypalCart from '../PaypalCart.vue'
 
 
     const auth = useFirebaseAuth();
@@ -157,6 +158,7 @@
             <button @click="descargarPosts">Descargar Posts</button>
         </div>
 
+        <PaypalCart/>
 
 
         <div v-for="post in arPosts" :key="post.id">

@@ -20,10 +20,29 @@
         } else {
             initializePaypalButton();
         }
- 
     });
 
-
+    function initializePaypalButton() {
+      window.paypal.Buttons({
+        createOrder: (data, actions) => {
+          return actions.order.create({
+            purchase_units: [{
+              amount: { value: 40 }
+            }]
+          });
+        },
+        onApprove: (data, actions) => {
+          return actions.order.capture().then(details => {
+            console.log('Transaction completed by ' + details.payer.name.given_name);
+            // Here you can clear the cart or update your backend as needed.
+          });
+        },
+        onError: (err) => {
+          console.error('PayPal Checkout error', err);
+          // Implement error handling as needed.
+        }
+      }).render('#paypal-button-container');
+    }
 
 </script>
 
