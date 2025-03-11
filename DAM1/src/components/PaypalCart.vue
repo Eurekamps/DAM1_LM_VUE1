@@ -1,0 +1,54 @@
+<script setup>
+    import card from 'primevue/card';
+    import { ref, onMounted } from 'vue';
+
+    const cartItems=ref([
+        { name: 'Product A', price: 5.00 },
+        { name: 'Product B', price: 5.00 }
+    ]);
+
+
+    //ESTA FUNCION SIEMPRE SE EJECUTA AL PINTAR UN COMPONENTE EN LA PANTALLA
+    onMounted(() => {
+        // Dynamically load the PayPal SDK if it isn't already loaded.
+        if (!document.getElementById('paypal-sdk')) {
+            const script = document.createElement('script');
+            script.id = 'paypal-sdk';
+            script.src = 'https://www.paypal.com/sdk/js?client-id=AfoMfZ8grLg1zeDJbSfN-QDtCF_-bG9cxvRLCGtUdNl55Vk2VvCsv_YGII7_TO7xWi4NBg9fSbSECK-k&currency=EUR';
+            script.onload = initializePaypalButton;
+            document.head.appendChild(script);
+        } else {
+            initializePaypalButton();
+        }
+ 
+    });
+
+
+
+</script>
+
+<template>
+    <div class="p-grid">
+    <!-- Left Column: PayPal Button -->
+    <div class="p-col-12 p-md-6">
+      <div id="paypal-button-container"></div>
+    </div>
+    
+    <!-- Right Column: Shopping Cart -->
+    <div class="p-col-12 p-md-6">
+      <card header="Your Shopping Cart">
+        <ul>
+          <li v-for="(item, index) in cartItems" :key="index">
+            {{ item.name }} - ${{ item.price }}
+          </li>
+        </ul>
+        <p>Total: ${{ totalAmount }}</p>
+      </card>
+    </div>
+  </div>
+
+</template>
+
+<style scoped>
+
+</style>

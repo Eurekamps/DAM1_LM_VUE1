@@ -67,7 +67,10 @@
         const collectionRef = collection(db,"Profiles/"+auth.currentUser.uid+"/Posts/");
 
         //const consulta = query(collectionRef, where("title", ">=", sTextoBusqueda.value));
-        const consulta = query(collectionRef, where("tags", "array-contains", sTextoBusqueda.value));
+        //const consulta = query(collectionRef, where("tags", "array-contains", sTextoBusqueda.value));
+        //const consulta = query(collectionRef, where('title', 'in', ['post1', 'post4']));
+        //const consulta = query(collectionRef, where("tags", "array-contains-any", sTextoBusqueda.value.split(" ")));
+        const consulta = query(collectionRef, where("likes", "<", 60), where("tags", "array-contains-any", sTextoBusqueda.value.split(" ")));
 
         getDocs(consulta)
         .then(descargaPostsOK)

@@ -3,6 +3,7 @@
     import Login from './auth/Login.vue';
     import Register from './auth/Register.vue';
     import Home from './home/Home.vue';
+    import PaypalCarrito from './payments/PaypalCarrito.vue';
 
     const blLoginVisible=ref(true);
     const blRegistroVisible=ref(false);
@@ -34,6 +35,7 @@
         <Register v-if="blRegistroVisible" @cambiarALogin="mostrarLogin"/>
         <Home v-if="blHomeVisible"/>
         <v-btn @click="drawer = true" > DRAWER</v-btn>
+
     </div>
 
     <v-navigation-drawer
@@ -43,6 +45,8 @@
       >
 
     </v-navigation-drawer>
+    <PaypalCarrito/>
+    
 
 </template>
 

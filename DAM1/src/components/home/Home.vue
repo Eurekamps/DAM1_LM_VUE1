@@ -64,7 +64,11 @@
 
         //const consulta = query(postsRef, where("title", ">=", sTextoBusqueda.value));
         //const consulta = query(postsRef, where("likes", ">", 70));
-        const consulta = query(postsRef, where("tags", "array-contains", sTextoBusqueda.value));
+        //const consulta = query(postsRef, where("tags", "array-contains-any", sTextoBusqueda.value.split(" ")));
+        //const consulta = query(postsRef, where("title", "in", sTextoBusqueda.value.split(" ")));
+        const consulta = query(postsRef, 
+            where("tags", "array-contains-any", sTextoBusqueda.value.split(" ")),
+            where("likes",">",60));
 
         getDocs(consulta)
         .then(descargaPostsOK)
