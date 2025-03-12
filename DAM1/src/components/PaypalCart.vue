@@ -2,10 +2,16 @@
     import card from 'primevue/card';
     import { ref, onMounted } from 'vue';
 
-    const cartItems=ref([
+    /*const cartItems=ref([
         { name: 'Product A', price: 5.00 },
         { name: 'Product B', price: 5.00 }
-    ]);
+    ]);*/
+
+    defineProps({
+      cartItems: [],
+      totalAmount: Number
+    });
+
 
 
     //ESTA FUNCION SIEMPRE SE EJECUTA AL PINTAR UN COMPONENTE EN LA PANTALLA
@@ -47,27 +53,57 @@
 </script>
 
 <template>
-    <div class="p-grid">
-    <!-- Left Column: PayPal Button -->
-    <div class="p-col-12 p-md-6">
-      <div id="paypal-button-container"></div>
+
+  <div class="shopping-cart">
+    <h2>Your Shopping Cart</h2>
+    <ul>
+      <li v-for="(item, index) in cartItems" :key="index" class="cart-item">
+        <span class="item-name">{{ item.name }}</span>
+        <span class="item-price">\${{ item.price.toFixed(2) }}</span>
+      </li>
+    </ul>
+    <div class="total">
+      Total: \${{ totalAmount }}
     </div>
-    
-    <!-- Right Column: Shopping Cart -->
-    <div class="p-col-12 p-md-6">
-      <card header="Your Shopping Cart">
-        <ul>
-          <li v-for="(item, index) in cartItems" :key="index">
-            {{ item.name }} - ${{ item.price }}
-          </li>
-        </ul>
-        <p>Total: ${{ totalAmount }}</p>
-      </card>
-    </div>
+
+    <div id="paypal-button-container"></div>
   </div>
 
 </template>
 
 <style scoped>
+
+  .shopping-cart {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 16px;
+    border: 1px solid #121212;
+    border-radius: 4px;
+    font-family: Arial, sans-serif;
+  }
+  h2 {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  .cart-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+  }
+  .cart-item:last-child {
+    border-bottom: none;
+  }
+  .total {
+    font-weight: bold;
+    margin-top: 16px;
+    text-align: right;
+    font-size: 1.1em;
+  }
 
 </style>

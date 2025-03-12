@@ -17,6 +17,13 @@ import App from './App.vue'
 import { firebaseApp } from './firebase'
 import ToastService from 'primevue/toastservice';
 
+// Import PrimeVue and PrimeFlex styles
+//import 'primevue/resources/themes/saga-blue/theme.css'  // or your preferred theme
+//import 'primevue/resources/primevue.min.css'
+//import 'primeicons/primeicons.css'
+//import 'primeflex/primeflex.css'  // for responsive grid layouts
+
+
 const app = createApp(App)
 app.use(VueFire, {
   // imported above but could also just be created here

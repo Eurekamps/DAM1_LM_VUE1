@@ -21,6 +21,18 @@
     const sNombrePerfil=ref('');
     const sUrlAvatar=ref('');
 
+    const products=ref([
+        { id: 1, name: 'Product 1', price: 10.00, image: 'https://via.placeholder.com/150' },
+        { id: 2, name: 'Product 2', price: 20.00, image: 'https://via.placeholder.com/150' },
+        { id: 3, name: 'Product 3', price: 30.00, image: 'https://via.placeholder.com/150' },
+        { id: 4, name: 'Product 4', price: 40.00, image: 'https://via.placeholder.com/150' },
+        { id: 5, name: 'Product 5', price: 50.00, image: 'https://via.placeholder.com/150' }
+    ]);
+
+    const productosSeleccionados=ref([]);
+
+    const precioTotalProductSelect=ref(0);
+
     //ESTA FUNCION SIEMPRE SE EJECUTA AL PINTAR UN COMPONENTE EN LA PANTALLA
     onMounted(() => {
         descargarPerfil();
@@ -136,6 +148,12 @@
 
     }
 
+
+    function agregarProductoCarrito(product) {
+        productosSeleccionados.value.push(product);
+        precioTotalProductSelect.value+=product.price;
+    }
+
     
 </script>
 
@@ -158,7 +176,16 @@
             <button @click="descargarPosts">Descargar Posts</button>
         </div>
 
-        <PaypalCart/>
+        <div class="product-grid">
+            <div class="product" v-for="product in products" :key="product.id">
+                <img :src="product.image" alt="Product image" class="product-image" />
+                <h3 class="product-name">{{ product.name }}</h3>
+                <p class="product-price">${{ product.price.toFixed(2) }}</p>
+                <button @click="agregarProductoCarrito(product)">Agregar a Carrito</button>
+            </div>
+        </div>
+
+        <PaypalCart :cart-items="productosSeleccionados" :total-amount="precioTotalProductSelect"/>
 
 
         <div v-for="post in arPosts" :key="post.id">
@@ -182,5 +209,35 @@
         display: flex;
         flex-direction: column;
     }
+
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+        padding: 16px;
+        }
+
+        .product {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 16px;
+        text-align: center;
+        }
+
+        .product-image {
+        width: 100%;
+        height: auto;
+        margin-bottom: 8px;
+        }
+
+        .product-name {
+        font-size: 1.2em;
+        margin: 0;
+        }
+
+        .product-price {
+        color: #555;
+        margin-top: 8px;
+        }
 
 </style>
