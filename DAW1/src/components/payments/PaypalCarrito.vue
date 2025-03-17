@@ -13,7 +13,7 @@
             const script = document.createElement('script');
             script.id = 'paypal-sdk';
             script.src = 'https://www.paypal.com/sdk/js?client-id=AfoMfZ8grLg1zeDJbSfN-QDtCF_-bG9cxvRLCGtUdNl55Vk2VvCsv_YGII7_TO7xWi4NBg9fSbSECK-k&currency=EUR';
-            script.onload = this.initializePaypalButton;
+            script.onload = initializePaypalButton;
             document.head.appendChild(script);
         } else {
             initializePaypalButton();
@@ -24,11 +24,11 @@
       window.paypal.Buttons({
         createOrder: (data, actions) => {
           // Create the order with the dynamic total from your shopping cartç
-          const totalAmount = arProductos.value.reduce((sum, item) => sum + item.price, 0).toFixed(2);
+          //const totalAmount = arProductos.value.reduce((sum, item) => sum + item.price, 0).toFixed(2);
           return actions.order.create({
             purchase_units: [{
               amount: {
-                value: totalAmount // Total amount from your computed property
+                value: 40 // Total amount from your computed property
               }
             }]
           });
@@ -53,35 +53,58 @@
 
 <template>
 
-  <v-container>
-    <v-row>
-      <v-col cols="12" md="6">
-        <!-- This div is where PayPal renders the button -->
-        <div id="paypal-button-container"></div>
-      </v-col>
-      <v-col cols="12" md="6">
-        <!-- You can use Vuetify components to display your shopping cart here -->
-        <v-card>
-          <v-card-title>Your Shopping Cart</v-card-title>
-          <v-card-text>
-            <!-- List your cart items dynamically -->
-            <v-list>
-              <v-list-item v-for="(item, index) in arProductos" :key="index">
-                <v-list-item-content>
-                  <v-list-item-title>{{ item.name }}</v-list-item-title>
-                  <v-list-item-subtitle>\${{ item.price }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-            <div>Total: \${{ totalAmount }}</div>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+  <div class="shopping-cart">
+    <h2>Your Shopping Cart</h2>
+    <ul>
+      <li v-for="(item, index) in cartItems" :key="index" class="cart-item">
+        <span class="item-name">{{ item.name }}</span>
+        <span class="item-price">\${{ item.price.toFixed(2) }}</span>
+      </li>
+    </ul>
+    <div class="total">
+      Total: \${{ totalAmount }}
+    </div>
+
+    <div id="paypal-button-container"></div>
+
+  </div>
 
 </template>
 
 <style scoped>
+
+  .shopping-cart {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 16px;
+    border: 1px solid #121212;
+    border-radius: 4px;
+    font-family: Arial, sans-serif;
+  }
+  h2 {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  .cart-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+  }
+  .cart-item:last-child {
+    border-bottom: none;
+  }
+  .total {
+    font-weight: bold;
+    margin-top: 16px;
+    text-align: right;
+    font-size: 1.1em;
+  }
+
 
 </style>
