@@ -41,6 +41,13 @@
           return actions.order.capture().then(details => {
             // Show a success message to your buyer
             console.log('Transaction completed by ' + details.payer.name.given_name);
+
+            const collectionRefPosts=collection(db,"Profiles/"+auth.currentUser.uid+"/Pagos");
+            //setDoc(documentoRefPostNuevo,datosNuevoPost)
+            addDoc(collectionRefPosts,datosNuevoPost)
+            .then(postInsertadoOK)
+            .catch(postInsertadoNOK);
+
             // Here you can also clear the cart or update your backend
           });
         },

@@ -4,6 +4,7 @@
     import Register from './auth/Register.vue';
     import Home from './home/Home.vue';
     import PaypalCarrito from './payments/PaypalCarrito.vue';
+    import MapView from './MapView.vue';
 
     const blLoginVisible=ref(true);
     const blRegistroVisible=ref(false);
@@ -44,6 +45,12 @@
 </script>
 
 <template>
+
+    <h1> MI PRIMERA APP</h1>
+    <MapView></MapView>
+
+
+    <!--
     <div id="contenedor_principal">
         <h1> MI PRIMERA APP</h1>
         <Login v-if="blLoginVisible" @logeado="mostrarHome" @solicitaRegistro="mostrarRegistro"/>
@@ -73,7 +80,7 @@
 
 
     <PaypalCarrito :total-amount="sumaPrecio" :cart-items="productosSeleccionados"/>
-    
+    -->
 
 </template>
 

@@ -133,7 +133,7 @@
         );
       } catch (error) {
         console.error("Unexpected error uploading file:", error);
-        isUploading = false;
+        isUploading.value = false;
       }
     }
 

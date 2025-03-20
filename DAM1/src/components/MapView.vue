@@ -10,7 +10,7 @@
 <template>
 
     <GoogleMap
-        api-key=""
+        api-key="AIzaSyDUHIa4z9_S9sHMOTOD95ldo48I-h39aI8"
         mapId="DEMO_MAP_ID"
         style="width: 100%; height: 500px"
         :center="center"
