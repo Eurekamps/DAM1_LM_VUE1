@@ -5,6 +5,7 @@
     import PostItem from '../elementos/PostItem.vue';
     import { InputText } from 'primevue';
     import PaypalCart from '../PaypalCart.vue'
+    import MapView from '../MapView.vue'
 
 
     const auth = useFirebaseAuth();
@@ -162,13 +163,14 @@
 
         <h1>HOME</h1>
 
+        <!--
+
         <h2>{{ sNombrePerfil }}</h2>
         <img v-bind:src="sUrlAvatar" width="50" height="50"/>
 
         <div class="contenedor-agregar">
             <input v-model="sTitulo"/>
             <textarea v-model="sCuerpo"/>
-            <!--<input v-model="urlImg"/>-->
             
             <InputText type="text" v-model="sTextoBusqueda" placeholder="Texto de Busqueda"/>
 
@@ -193,6 +195,9 @@
             <PostItem :title="post.title" :body="post.body" :likes="post.likes"></PostItem>
 
         </div>
+    -->
+
+    <MapView></MapView>
 
     </div>
 </template>

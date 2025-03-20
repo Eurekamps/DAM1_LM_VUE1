@@ -40,8 +40,16 @@
         onApprove: (data, actions) => {
           return actions.order.capture().then(details => {
             console.log('Transaction completed by ' + details.payer.name.given_name);
-            // Here you can clear the cart or update your backend as needed.
-          });
+            //alert("EL UID DEL USUARIO ACTUAL ES: "+auth.currentUser.uid);
+            /*const ruta="/Profiles/"+auth.currentUser.uid+"/Pagos";
+
+            const postsRef = collection(bbdd, ruta);
+            addDoc(postsRef,{productos:cartItems.value,title:"Factura numero 20001"})
+            .then(insertNuevoPostOK)
+            .catch(insertNuevoPostNOK);
+              // Here you can clear the cart or update your backend as needed.
+              */
+            });
         },
         onError: (err) => {
           console.error('PayPal Checkout error', err);

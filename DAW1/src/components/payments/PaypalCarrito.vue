@@ -1,10 +1,12 @@
 <script setup>
-    import { ref,onMounted } from 'vue';
+    import { ref,onMounted,defineProps } from 'vue';
 
-    const arProductos=ref([
-        { name: 'Product A', price: 5.00 },
-        { name: 'Product B', price: 5.00 }
-    ]);
+
+    const props = defineProps({
+      totalAmount: 0,
+      cartItems : []
+    });
+
 
     //ESTA FUNCION SIEMPRE SE EJECUTA AL PINTAR UN COMPONENTE EN LA PANTALLA
     onMounted(() => {
@@ -13,14 +15,15 @@
             const script = document.createElement('script');
             script.id = 'paypal-sdk';
             script.src = 'https://www.paypal.com/sdk/js?client-id=AfoMfZ8grLg1zeDJbSfN-QDtCF_-bG9cxvRLCGtUdNl55Vk2VvCsv_YGII7_TO7xWi4NBg9fSbSECK-k&currency=EUR';
-            script.onload = initializePaypalButton;
+            //script.onload = initializePaypalButton;
             document.head.appendChild(script);
         } else {
-            initializePaypalButton();
+            //initializePaypalButton();
         }
     });
 
     function initializePaypalButton() {
+
       window.paypal.Buttons({
         createOrder: (data, actions) => {
           // Create the order with the dynamic total from your shopping cartç
@@ -28,7 +31,7 @@
           return actions.order.create({
             purchase_units: [{
               amount: {
-                value: 40 // Total amount from your computed property
+                value: props.totalAmount // Total amount from your computed property
               }
             }]
           });
@@ -64,6 +67,8 @@
     <div class="total">
       Total: \${{ totalAmount }}
     </div>
+
+    <button @click="initializePaypalButton">Pagar</button>
 
     <div id="paypal-button-container"></div>
 

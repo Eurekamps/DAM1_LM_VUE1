@@ -30,3 +30,6 @@ coverage
 *.tsbuildinfo
 ./DAW1/src/firebase.js
 DAM1/src/firebase.js
+
+./DAW1/.env
+./DAM1/.env

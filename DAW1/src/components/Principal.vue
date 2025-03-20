@@ -9,6 +9,8 @@
     const blRegistroVisible=ref(false);
     const blHomeVisible=ref(false);
     const drawer=ref(false);
+    const sumaPrecio=ref(0);
+    const productosSeleccionados=ref([]);
 
     const products=ref([
         { id: 1, name: 'Product 1', price: 10.00, image: 'https://via.placeholder.com/150' },
@@ -31,6 +33,11 @@
     function mostrarHome(){
         blHomeVisible.value=true;
         blLoginVisible.value=false;
+    }
+
+    function agregarProductoCarrito(product){
+        productosSeleccionados.value.push(product);
+        sumaPrecio.value=sumaPrecio.value+product.price;
     }
 
 
@@ -65,7 +72,7 @@
     </div>
 
 
-    <PaypalCarrito/>
+    <PaypalCarrito :total-amount="sumaPrecio" :cart-items="productosSeleccionados"/>
     
 
 </template>

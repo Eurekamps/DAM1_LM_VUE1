@@ -25,6 +25,7 @@ import ToastService from 'primevue/toastservice';
 
 
 const app = createApp(App)
+
 app.use(VueFire, {
   // imported above but could also just be created here
   firebaseApp,
